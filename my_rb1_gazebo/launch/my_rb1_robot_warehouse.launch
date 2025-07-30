@@ -3,8 +3,8 @@
  <param name="robot_description" command="$(find xacro)/xacro '$(find my_rb1_description)/urdf/my_rb1_robot.xacro'" />  
     <arg name="model_name" default="my_robot"/>
     <arg name="x" default="-0.5"/>
-    <arg name="y" default="-1.4"/>
-    <arg name="z" default="0"/>
+    <arg name="y" default="-1.5"/>
+    <arg name="z" default="0.5"/>
 
 	<!-- roslaunch arguments --> 
 	<arg name="debug" default="false"/>
@@ -23,9 +23,4 @@
 	
      <node name="mybot_spawn" pkg="gazebo_ros" type="spawn_model" output="screen"
           args="-urdf -param robot_description -model $(arg model_name) -x $(arg x) -y $(arg y) -z $(arg z)" />
-    <!-- send fake joint values -->
-    <node name="joint_state_publisher_gui" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui" />
-
-    <!-- Combine joint values -->
-    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
 </launch>

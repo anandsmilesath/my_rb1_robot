@@ -43,7 +43,6 @@
         <origin rpy="0 0 0" xyz="0 0 0.15" />
         <child link="base_link" />
         <parent link="base_footprint" />
-        <joint_properties damping="1.0" friction="1.0" />
     </joint>
 
         <!-- Link - base_link -->
@@ -81,9 +80,7 @@
         <origin rpy="0 0 0" xyz="0.0 -0.2 -0.15" />
         <child link="left_wheel" />
         <parent link="base_link" />
-        <axis rpy="0 0 0" xyz="0 1 0" />
-        <limit effort="10000" velocity="1000" />
-        <joint_properties damping="1.0" friction="1.0" />
+        <!--<axis rpy="0 0 0" xyz="0 1 0" />-->
     </joint>
 
       <!-- Link - link_left_wheel -->
@@ -121,9 +118,7 @@
         <origin rpy="0 0 0" xyz="0.0 0.2 -0.15" />
         <child link="right_wheel" />
         <parent link="base_link" />
-        <axis rpy="0 0 0" xyz="0 1 0" />
-        <limit effort="10000" velocity="1000" />
-        <joint_properties damping="1.0" friction="1.0" />
+        <!--<axis rpy="0 0 0" xyz="0 1 0" />-->
     </joint>
 
           <!-- Link - link_right_wheel -->
@@ -162,8 +157,6 @@
         <origin rpy="0 0 0" xyz="0.1 0.0 -0.15" />
         <child link="front_caster" />
         <parent link="base_link" />
-        <limit effort="10000" velocity="1000" />
-        <joint_properties damping="1.0" friction="1.0" />
     </joint>
 
      <!-- Link - front_caster_wheel -->
@@ -201,8 +194,6 @@
         <origin rpy="0 0 0" xyz="-0.1 0.0 -0.15" />
         <child link="back_caster" />
         <parent link="base_link" />
-        <limit effort="10000" velocity="1000" />
-        <joint_properties damping="1.0" friction="1.0" />
     </joint>
 
          <!-- Link - back_caster_wheel -->
@@ -236,11 +227,10 @@
     </link>
 
         <!-- Laser scan -->
-    <joint name="joint_front_laser_chassis" type="fixed">
+    <joint name="joint_front_laser_base_link" type="fixed">
         <origin rpy="3.14 0 0" xyz="0.25 0.0 0.075"/>
         <child link="front_laser" />
         <parent link="base_link" />
-        <joint_properties damping="1.0" friction="1.0" />
     </joint>
     <link name="front_laser">
         <inertial>
