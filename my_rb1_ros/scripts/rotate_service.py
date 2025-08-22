@@ -7,10 +7,12 @@ from rotate import RotateRobot
 def callback(request):
     roateangle = request.degrees
     rotaterobot = RotateRobot()
-    rotaterobot.rotate(roateangle)
+    rotateresult = rotaterobot.rotate(roateangle)
     response = RotateResponse()
-    print(response.result)
-    rospy.loginfo("Rotation completed successfully")
+    if(rotateresult):
+        rospy.loginfo("Success")
+    else:
+        rospy.loginfo("Failure")
     #rospy.loginfo(response.result)
 
 rospy.init_node('rotate_service_robot')

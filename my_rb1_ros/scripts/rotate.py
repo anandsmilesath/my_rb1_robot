@@ -62,8 +62,9 @@ class RotateRobot:
                 self.rotation_done = True
                 rospy.loginfo("Rotation complete.")
                 rospy.loginfo("Service completed.")
+                return True
                 #self.shutdownhook()
-                break
+                #break
                 #rospy.signal_shutdown("Task completed successfully.")
             self.rate.sleep()
         
