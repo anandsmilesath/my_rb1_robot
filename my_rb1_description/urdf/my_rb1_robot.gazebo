@@ -1,87 +1,105 @@
 <?xml version="1.0"?>
 <robot>
-<!--<gazebo reference="joint_footprint_base_link">
-    <preserveFixedJoint>true</preserveFixedJoint>
-</gazebo>-->
-<gazebo reference="joint_base_link_front_caster_wheel">
-    <preserveFixedJoint>true</preserveFixedJoint>
-</gazebo>
-<gazebo reference="joint_base_link_back_caster_wheel">
-    <preserveFixedJoint>true</preserveFixedJoint>
-</gazebo>
-<gazebo reference="joint_front_laser_base_link">
-    <preserveFixedJoint>true</preserveFixedJoint>
-</gazebo>
-    <gazebo reference="base_footprint">
-        <material>Gazebo/Black</material>
-    </gazebo>
+ <!-- Specify Gazebo color for the base_link -->
     <gazebo reference="base_link">
         <material>Gazebo/Black</material>
     </gazebo>
-    <gazebo reference="front_caster">
-        <material>Gazebo/DarkGrey</material>
-        <mu1>0.035</mu1>
-        <mu2>0.035</mu2>
-    </gazebo>
-    <gazebo reference="back_caster">
-        <material>Gazebo/DarkGrey</material>
-        <mu1>0.035</mu1>
-        <mu2>0.035</mu2>
-    </gazebo>
-    <gazebo reference="right_wheel">
-        <material>Gazebo/DarkGrey</material>
-        <!--<mu1>0.01</mu1>
-        <mu2>0.01</mu2>-->
-    </gazebo>
+
+    <!-- Gazebo friction and material properties for left_wheel -->
     <gazebo reference="left_wheel">
-        <material>Gazebo/DarkGrey</material>
-        <!--<mu1>0.01</mu1>
-        <mu2>0.01</mu2>-->
+        <mu1 value="5.0"/>
+		<mu2 value="0.5"/>
+		<kp value="10000000.0" />
+		<kd value="1.0" />
+		<fdir1 value="1 0 0"/>
+        <material>Gazebo/Red</material>
     </gazebo>
+
+    <!-- Gazebo friction and material properties for right_wheel -->
+    <gazebo reference="right_wheel">
+        <mu1 value="5.0"/>
+		<mu2 value="0.5"/>
+		<kp value="10000000.0" />
+		<kd value="1.0" />
+		<fdir1 value="1 0 0"/>
+        <material>Gazebo/Red</material>
+    </gazebo>
+
+    <!-- Gazebo friction and material properties for front_caster -->
+    <gazebo reference="front_caster">
+        <mu1 value="0.0"/>
+        <mu2 value="0.0"/>
+        <kp value="10000000.0" />
+        <kd value="100.0" />
+        <fdir1 value="0 0 1"/>
+        <material>Gazebo/Gray</material>
+    </gazebo>
+
+    <!-- Gazebo friction and material properties for back_caster -->
+    <gazebo reference="back_caster">
+        <mu1 value="0.0"/>
+        <mu2 value="0.0"/>
+        <kp value="10000000.0" />
+        <kd value="100.0" />
+        <fdir1 value="0 0 1"/>
+        <material>Gazebo/Gray</material>
+    </gazebo>
+
+    <!-- Gazebo plugin for differential drive controller -->
     <gazebo>
-    <plugin filename="libgazebo_ros_diff_drive.so" name="differential_drive_controller">
-        <alwaysOn>true</alwaysOn>
-        <updateRate>20</updateRate>
-        <leftJoint>joint_base_link_left_wheel</leftJoint>
-        <rightJoint>joint_base_link_right_wheel</rightJoint>
-        <wheelSeparation>0.4</wheelSeparation>
-        <wheelRadius>0.025</wheelRadius>
-        <torque>10</torque>
-        <commandTopic>cmd_vel</commandTopic>
-        <odometryTopic>odom</odometryTopic>
-        <odometryFrame>odom</odometryFrame>
-        <robotBaseFrame>base_footprint</robotBaseFrame>
-    </plugin>
-</gazebo>
-<gazebo reference="front_laser">
-    <sensor type="ray" name="head_hokuyo_sensor">
-        <pose>0 0 0 0 0 0</pose>
-        <visualize>true</visualize>
-        <update_rate>20</update_rate>
-        <ray>
-            <scan>
-                <horizontal>
-                    <samples>720</samples>
-                    <resolution>1</resolution>
-                    <min_angle>-1.570796</min_angle>
-                    <max_angle>1.570796</max_angle>
-                </horizontal>
-            </scan>
-            <range>
-                <min>0.20</min>
-                <max>10.0</max>
-                <resolution>0.01</resolution>
-            </range>
-            <noise>
-                <type>gaussian</type>
-                <mean>0.0</mean>
-                <stddev>0.01</stddev>
-            </noise>
-        </ray>
-        <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so">
-            <topicName>/scan</topicName>
-            <frameName>sensor_laser</frameName>
+        <plugin filename="libgazebo_ros_diff_drive.so" name="differential_drive_controller">
+            <!-- Plugin parameters -->
+            <alwaysOn>true</alwaysOn>
+            <updateRate>20</updateRate>
+            <leftJoint>base_link_left_wheel_joint</leftJoint>
+            <rightJoint>base_link_right_wheel_joint</rightJoint>
+            <publishWheelTF>true</publishWheelTF>
+            <wheelSeparation>0.4</wheelSeparation>
+            <wheelDiameter>0.05</wheelDiameter>
+            <torque>10</torque>
+            <commandTopic>cmd_vel</commandTopic>
+            <odometryTopic>odom</odometryTopic>
+            <odometryFrame>odom</odometryFrame>
+            <robotBaseFrame>base_footprint</robotBaseFrame>
         </plugin>
-    </sensor>
-</gazebo>
+    </gazebo>
+
+    <!-- Gazebo configuration for the front laser sensor -->
+    <gazebo reference="front_laser">
+        <!-- Define a ray sensor named "head_hokuyo_sensor" -->
+        <sensor type="ray" name="head_hokuyo_sensor">
+            <pose>0 0 0 0 0 0</pose>
+            <!-- Enable visualization of the sensor -->
+            <visualize>true</visualize>
+            <update_rate>20</update_rate>
+            <ray>
+                <!-- Configure the scanning properties -->
+                <scan>
+                    <horizontal>
+                        <samples>720</samples>
+                        <resolution>1</resolution>
+                        <min_angle>-1.570796</min_angle>
+                        <max_angle>1.570796</max_angle>
+                    </horizontal>
+                </scan>
+                <!-- Configure the range properties -->
+                <range>
+                    <min>0.05</min>
+                    <max>10.0</max>
+                    <resolution>0.01</resolution>
+                </range>
+                <!-- Configure the noise properties -->
+                <noise>
+                    <type>gaussian</type>
+                    <mean>0.0</mean>
+                    <stddev>0.01</stddev>
+                </noise>
+            </ray>
+            <!-- Attach a Gazebo plugin to the sensor for ROS integration -->
+            <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so">
+                <topicName>/scan</topicName>
+                <frameName>front_laser</frameName>
+            </plugin>
+        </sensor>
+    </gazebo>
 </robot>
